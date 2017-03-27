@@ -83,4 +83,33 @@ Q6. Find names and grades of students who only have friends in the same grade. R
 
 Q7. For each student A who likes a student B where the two are not friends, find if they have a friend C in common (who can introduce them!). For all such trios, return the name and grade of A, B, and C. 
 
+1. Join Friend and Likes 
+2. Get list of IDA, IDB where A likes B but they are not friends
+
+Q8. Find the difference between the number of students in the school and the number of different first names. 
+
+    SELECT COUNT(*)-COUNT(DISTINCT name)
+    FROM Highschooler
+
+Q9. Find the name and grade of all students who are liked by more than one other student. 
+
+Using "Case When":
+
+    SELECT name, grade
+    FROM Highschooler
+    WHERE ID in
+    (SELECT CASE WHEN COUNT(ID2)>1 THEN ID2 END 
+    FROM Likes
+    GROUP BY ID2)
+
+Using "Having":
+
+    SELECT name, grade
+    FROM Highschooler
+    WHERE ID in
+    (SELECT ID2
+    FROM Likes
+    GROUP BY ID2
+    HAVING COUNT(ID2)>1)
+
 > Written with [StackEdit](https://stackedit.io/).
